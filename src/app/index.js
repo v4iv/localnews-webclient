@@ -30,7 +30,7 @@ class App extends Component {
     handleSubmit() {
         axios({
             method: 'post',
-            url: `http://localnews-server.herokuapp.com/api/places/`,
+            url: `https://localnews-server.herokuapp.com/api/places/`,
             headers: {
                 "Content-Type": "application/json",
                 'Cache-Control': "no-cache"

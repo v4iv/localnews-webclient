@@ -12,24 +12,26 @@ const ArticleList = ({articles}) => {
                 <div>
                     {articles.map((article, index) => {
                         return (
-                            <div className="card" key={index}>
-                                <div className="card-content">
-                                    <p className="title">
-                                        {article.title}
-                                    </p>
-                                    <p className="subtitle">
-                                        {article.publishedAt.toLocaleDateString()}
-                                    </p>
+                            <section key={index} className='section'>
+                                <div className="card">
+                                    <div className="card-content">
+                                        <p className="title">
+                                            {article.title}
+                                        </p>
+                                        <p className="subtitle">
+                                            {article.publishedAt.toString()}
+                                        </p>
+                                    </div>
+                                    <footer className="card-footer">
+                                        <p className="card-footer-item">
+                                            {article.source.name}
+                                        </p>
+                                        <p className="card-footer-item">
+                                            {article.author}
+                                        </p>
+                                    </footer>
                                 </div>
-                                <footer className="card-footer">
-                                    <p className="card-footer-item">
-                                        {article.source.name}
-                                    </p>
-                                    <p className="card-footer-item">
-                                        {article.source.author}
-                                    </p>
-                                </footer>
-                            </div>
+                            </section>
                         );
                     })}
                 </div>

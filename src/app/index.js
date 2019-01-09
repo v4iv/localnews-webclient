@@ -38,7 +38,6 @@ class App extends Component {
             data: {searchInput: this.state.searchInput}
         })
             .then(response => {
-                console.log(this.state.searchInput)
                 this.setState({
                     city_name: response.data.name,
                     place_id: response.data.place_id,
@@ -60,7 +59,7 @@ class App extends Component {
                 });
             })
             .catch(err => {
-                console.log("Axios: ", err)
+                console.log("Axios: ", err.data)
             });
     }
 

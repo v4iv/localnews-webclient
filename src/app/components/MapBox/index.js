@@ -5,7 +5,7 @@ const MapBox = ({latitude, longitude}) => {
     const GoogleMapExample = withGoogleMap(props => (
         <GoogleMap
             defaultZoom={8}
-            defaultCenter={{ lat: -34.397, lng: 150.644 }}
+            defaultCenter={{ lat: props.lat, lng: props.lng }}
         >
             {props.isMarkerShown && <Marker position={{ lat: props.lat, lng: props.lng }} />}
         </GoogleMap>

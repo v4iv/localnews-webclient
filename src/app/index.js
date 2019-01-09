@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import SearchBox from "./components/SearchBox";
 import Footer from "./components/Footer";
 import ArticleList from "./components/ArticleList";
+import MapBox from "./components/MapBox";
 
 class App extends Component {
     constructor(props) {
@@ -13,8 +14,8 @@ class App extends Component {
             searchInput: '',
             city_name: '',
             place_id: '',
-            latitude: '',
-            longitude: '',
+            latitude: '-34.397',
+            longitude: '150.644',
             articles: [],
         }
         this.handleChange = this.handleChange.bind(this);
@@ -27,13 +28,17 @@ class App extends Component {
     }
 
     handleSubmit() {
-        console.log(this.state.searchInput)
         axios({
             method: 'post',
-            url: `https://localnews-server.herokuapp.com/api/places/`,
+            url: `http://localnews-server.herokuapp.com/api/places/`,
+            headers: {
+                "Content-Type": "application/json",
+                'Cache-Control': "no-cache"
+            },
             data: {searchInput: this.state.searchInput}
         })
             .then(response => {
+                console.log(this.state.searchInput)
                 this.setState({
                     city_name: response.data.name,
                     place_id: response.data.place_id,
@@ -60,6 +65,8 @@ class App extends Component {
     }
 
     render() {
+        const lat = parseFloat(this.state.latitude);
+        const lng = parseFloat(this.state.longitude);
         return (
             <div>
                 <Navbar/>
@@ -72,6 +79,7 @@ class App extends Component {
                         />
                     </div>
                 </section>
+                <MapBox latitude={lat} longitude={lng}/>
                 {this.state.articles &&
                 <ArticleList articles={this.state.articles}/>
                 }

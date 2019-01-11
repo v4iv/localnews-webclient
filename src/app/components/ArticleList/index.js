@@ -11,15 +11,16 @@ const ArticleList = ({articles}) => {
                 </div>
                 <div>
                     {articles.map((article, index) => {
+                        const publish_date = new Date(article.publishedAt);
                         return (
                             <section key={index} className='section'>
                                 <div className="card">
                                     <div className="card-content">
                                         <p className="title">
-                                            {article.title}
+                                            “{article.title}”
                                         </p>
                                         <p className="subtitle">
-                                            {article.publishedAt.toString()}
+                                            {article.author}
                                         </p>
                                     </div>
                                     <footer className="card-footer">
@@ -27,7 +28,7 @@ const ArticleList = ({articles}) => {
                                             {article.source.name}
                                         </p>
                                         <p className="card-footer-item">
-                                            {article.author}
+                                            {publish_date.toDateString()}
                                         </p>
                                     </footer>
                                 </div>

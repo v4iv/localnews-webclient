@@ -1,0 +1,2 @@
+/service-worker.js   # CRA's default service worker file path
+   Cache-Control: no-cache

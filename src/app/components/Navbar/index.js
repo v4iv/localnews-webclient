@@ -4,7 +4,7 @@ const Navbar = () => (
     <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
             <a className="navbar-item" href="/">
-                Local News
+                <strong>CT News</strong>
             </a>
         </div>
     </nav>

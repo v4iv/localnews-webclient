@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import NProgress from 'nprogress';
-import './styles.css'
 import newsapi from './lib/newsapi';
 import Navbar from "./components/Navbar";
 import SearchBox from "./components/SearchBox";

@@ -13,12 +13,13 @@ class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            searchInput: '',
+            searchInput: null,
             city_name: '',
             place_id: '',
             latitude: '-34.397',
             longitude: '150.644',
             articles: [],
+            error: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,43 +31,49 @@ class App extends Component {
     }
 
     handleSubmit() {
-        NProgress.start();
-        axios({
-            method: 'post',
-            url: `https://localnews-server.herokuapp.com/api/places/`,
-            headers: {
-                "Content-Type": "application/json",
-                'Cache-Control': "no-cache"
-            },
-            data: {searchInput: this.state.searchInput}
-        })
-            .then(response => {
-                this.setState({
-                    city_name: response.data.name,
-                    place_id: response.data.place_id,
-                    latitude: response.data.latitude,
-                    longitude: response.data.longitude
-                });
-
-                // News API
-                newsapi.v2.topHeadlines({
-                    q: this.state.city_name,
-                    language: 'en',
-                    sortBy: 'relevancy',
-                })
-                    .then(response => {
-                        NProgress.done();
-                        this.setState({articles: response.articles})
-                    })
-                    .catch(err => {
-                        NProgress.done();
-                        console.log("News API: ", err)
-                    });
+        if(this.state.searchInput && this.state.searchInput.length){
+            this.setState({error: false})
+            NProgress.start();
+            axios({
+                method: 'post',
+                url: `https://localnews-server.herokuapp.com/api/places/`,
+                headers: {
+                    "Content-Type": "application/json",
+                    'Cache-Control': "no-cache"
+                },
+                data: {searchInput: this.state.searchInput}
             })
-            .catch(err => {
-                NProgress.done();
-                console.log("Axios: ", err.data)
-            });
+                .then(response => {
+                    this.setState({
+                        city_name: response.data.name,
+                        place_id: response.data.place_id,
+                        latitude: response.data.latitude,
+                        longitude: response.data.longitude
+                    });
+
+                    // News API
+                    newsapi.v2.topHeadlines({
+                        q: this.state.city_name,
+                        language: 'en',
+                        sortBy: 'relevancy',
+                    })
+                        .then(response => {
+                            NProgress.done();
+                            this.setState({articles: response.articles})
+                        })
+                        .catch(err => {
+                            NProgress.done();
+                            console.log("News API: ", err)
+                        });
+                })
+                .catch(err => {
+                    NProgress.done();
+                    console.log("Axios: ", err.data)
+                });
+        }
+        else {
+            this.setState({error: true})
+        }
     }
 
     render() {
@@ -78,6 +85,7 @@ class App extends Component {
                 <section className='section'>
                     <div className='container'>
                         <SearchBox
+                            error={this.state.error}
                             searchInput={this.state.searchInput}
                             handleChange={this.handleChange}
                             handleSubmit={this.handleSubmit}
